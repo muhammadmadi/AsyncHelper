@@ -1,0 +1,18 @@
+{
+    "Version": "1.2",
+    "Data": {
+        "Source": "c:\\unreal projects\\testgas\\plugins\\asynchelper\\source\\asynchelper\\private\\asynchelpersubsystem.cpp",
+        "ProvidedModule": "",
+        "PCH": "c:\\unreal projects\\testgas\\intermediate\\build\\win64\\x64\\testgaseditor\\development\\unrealed\\sharedpch.unrealed.project.valapi.valexpapi.cpp20.inclorderunreal5_3.h.pch",
+        "Includes": [
+            "c:\\unreal projects\\testgas\\plugins\\asynchelper\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\asynchelper\\definitions.asynchelper.h",
+            "c:\\unreal projects\\testgas\\plugins\\asynchelper\\source\\asynchelper\\public\\asynchelpersubsystem.h",
+            "c:\\unreal projects\\testgas\\plugins\\asynchelper\\source\\asynchelper\\public\\asynctaskmanager.h",
+            "c:\\unreal projects\\testgas\\plugins\\asynchelper\\intermediate\\build\\win64\\unrealeditor\\inc\\asynchelper\\uht\\asynctaskmanager.generated.h",
+            "c:\\unreal projects\\testgas\\plugins\\asynchelper\\intermediate\\build\\win64\\unrealeditor\\inc\\asynchelper\\uht\\asynchelpersubsystem.generated.h",
+            "c:\\unreal projects\\testgas\\plugins\\asynchelper\\source\\asynchelper\\public\\asynchelper.h"
+        ],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}

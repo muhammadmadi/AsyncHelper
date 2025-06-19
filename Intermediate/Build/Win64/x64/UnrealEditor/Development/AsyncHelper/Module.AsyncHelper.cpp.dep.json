@@ -1,0 +1,39 @@
+{
+    "Version": "1.2",
+    "Data": {
+        "Source": "c:\\unreal projects\\testgas\\plugins\\asynchelper\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\asynchelper\\module.asynchelper.cpp",
+        "ProvidedModule": "",
+        "PCH": "c:\\unreal projects\\testgas\\intermediate\\build\\win64\\x64\\testgaseditor\\development\\unrealed\\sharedpch.unrealed.project.valapi.valexpapi.cpp20.inclorderunreal5_3.h.pch",
+        "Includes": [
+            "c:\\unreal projects\\testgas\\plugins\\asynchelper\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\asynchelper\\definitions.asynchelper.h",
+            "c:\\unreal projects\\testgas\\plugins\\asynchelper\\intermediate\\build\\win64\\unrealeditor\\inc\\asynchelper\\uht\\asyncdelayaction.gen.cpp",
+            "c:\\unreal projects\\testgas\\plugins\\asynchelper\\source\\asynchelper\\public\\asyncdelayaction.h",
+            "c:\\ue_5.6\\engine\\source\\runtime\\engine\\classes\\kismet\\blueprintasyncactionbase.h",
+            "c:\\ue_5.6\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\engine\\uht\\blueprintasyncactionbase.generated.h",
+            "c:\\unreal projects\\testgas\\plugins\\asynchelper\\source\\asynchelper\\public\\asynctaskmanager.h",
+            "c:\\unreal projects\\testgas\\plugins\\asynchelper\\intermediate\\build\\win64\\unrealeditor\\inc\\asynchelper\\uht\\asynctaskmanager.generated.h",
+            "c:\\unreal projects\\testgas\\plugins\\asynchelper\\intermediate\\build\\win64\\unrealeditor\\inc\\asynchelper\\uht\\asyncdelayaction.generated.h",
+            "c:\\unreal projects\\testgas\\plugins\\asynchelper\\intermediate\\build\\win64\\unrealeditor\\inc\\asynchelper\\uht\\asynchelper.init.gen.cpp",
+            "c:\\unreal projects\\testgas\\plugins\\asynchelper\\intermediate\\build\\win64\\unrealeditor\\inc\\asynchelper\\uht\\asynchelperblueprintlibrary.gen.cpp",
+            "c:\\unreal projects\\testgas\\plugins\\asynchelper\\source\\asynchelper\\public\\asynchelperblueprintlibrary.h",
+            "c:\\unreal projects\\testgas\\plugins\\asynchelper\\intermediate\\build\\win64\\unrealeditor\\inc\\asynchelper\\uht\\asynchelperblueprintlibrary.generated.h",
+            "c:\\unreal projects\\testgas\\plugins\\asynchelper\\intermediate\\build\\win64\\unrealeditor\\inc\\asynchelper\\uht\\asynchelpersettings.gen.cpp",
+            "c:\\unreal projects\\testgas\\plugins\\asynchelper\\source\\asynchelper\\public\\asynchelpersettings.h",
+            "c:\\unreal projects\\testgas\\plugins\\asynchelper\\intermediate\\build\\win64\\unrealeditor\\inc\\asynchelper\\uht\\asynchelpersettings.generated.h",
+            "c:\\unreal projects\\testgas\\plugins\\asynchelper\\intermediate\\build\\win64\\unrealeditor\\inc\\asynchelper\\uht\\asynchelpersubsystem.gen.cpp",
+            "c:\\unreal projects\\testgas\\plugins\\asynchelper\\source\\asynchelper\\public\\asynchelpersubsystem.h",
+            "c:\\unreal projects\\testgas\\plugins\\asynchelper\\intermediate\\build\\win64\\unrealeditor\\inc\\asynchelper\\uht\\asynchelpersubsystem.generated.h",
+            "c:\\unreal projects\\testgas\\plugins\\asynchelper\\intermediate\\build\\win64\\unrealeditor\\inc\\asynchelper\\uht\\asynctaskchainaction.gen.cpp",
+            "c:\\unreal projects\\testgas\\plugins\\asynchelper\\source\\asynchelper\\public\\asynctaskchainaction.h",
+            "c:\\unreal projects\\testgas\\plugins\\asynchelper\\intermediate\\build\\win64\\unrealeditor\\inc\\asynchelper\\uht\\asynctaskchainaction.generated.h",
+            "c:\\unreal projects\\testgas\\plugins\\asynchelper\\intermediate\\build\\win64\\unrealeditor\\inc\\asynchelper\\uht\\asynctaskmanager.gen.cpp",
+            "c:\\unreal projects\\testgas\\plugins\\asynchelper\\intermediate\\build\\win64\\unrealeditor\\inc\\asynchelper\\uht\\asynctimeoutaction.gen.cpp",
+            "c:\\unreal projects\\testgas\\plugins\\asynchelper\\source\\asynchelper\\public\\asynctimeoutaction.h",
+            "c:\\unreal projects\\testgas\\plugins\\asynchelper\\intermediate\\build\\win64\\unrealeditor\\inc\\asynchelper\\uht\\asynctimeoutaction.generated.h",
+            "c:\\unreal projects\\testgas\\plugins\\asynchelper\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\asynchelper\\permoduleinline.gen.cpp",
+            "c:\\ue_5.6\\engine\\source\\runtime\\core\\public\\hal\\permoduleinline.inl"
+        ],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}
