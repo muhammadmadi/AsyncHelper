@@ -127,6 +127,16 @@ public:
 	static bool IsAsyncHelperAvailable(const UObject* WorldContext);
 
 	/**
+	 * Execute a simple async delay (Blueprint-friendly version without delegates)
+	 * @param WorldContext - World context for the operation
+	 * @param DelaySeconds - How long to wait before completing
+	 * @param TaskName - Optional name for debugging
+	 * @return Handle to the created task
+	 */
+	UFUNCTION(BlueprintCallable, Category = "Async Helper", meta = (WorldContext = "WorldContext"))
+	static FAsyncTaskHandle ExecuteAsyncDelaySimple(const UObject* WorldContext, float DelaySeconds, const FString& TaskName = TEXT("SimpleAsyncDelay"));
+
+	/**
 	 * Execute a chain of async tasks in sequence with flexible control
 	 * @param WorldContext - World context for the operation
 	 * @param TaskChain - Array of task indices to execute in sequence

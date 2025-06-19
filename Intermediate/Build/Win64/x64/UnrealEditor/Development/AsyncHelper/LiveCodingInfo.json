@@ -2,6 +2,7 @@
 	"RemapUnityFiles": 
 	{
 		"Module.AsyncHelper.cpp.obj": [
+			"AsyncBatchAction.gen.cpp.obj",
 			"AsyncDelayAction.gen.cpp.obj",
 			"AsyncHelper.init.gen.cpp.obj",
 			"AsyncHelperBlueprintLibrary.gen.cpp.obj",
@@ -11,6 +12,7 @@
 			"AsyncTaskManager.gen.cpp.obj",
 			"AsyncTimeoutAction.gen.cpp.obj",
 			"PerModuleInline.gen.cpp.obj",
+			"AsyncBatchAction.cpp.obj",
 			"AsyncDelayAction.cpp.obj",
 			"AsyncHelper.cpp.obj",
 			"AsyncHelperBlueprintLibrary.cpp.obj",

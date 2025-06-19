@@ -25,6 +25,7 @@ struct FAsyncTaskInfo;
 	DECLARE_FUNCTION(execExecuteAsyncBatch); \
 	DECLARE_FUNCTION(execExecuteAsyncDelayWithTimeout); \
 	DECLARE_FUNCTION(execExecuteAsyncTaskChain); \
+	DECLARE_FUNCTION(execExecuteAsyncDelaySimple); \
 	DECLARE_FUNCTION(execIsAsyncHelperAvailable); \
 	DECLARE_FUNCTION(execExecuteSimpleDelay); \
 	DECLARE_FUNCTION(execGetPerformanceStats); \

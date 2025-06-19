@@ -313,6 +313,77 @@ DEFINE_FUNCTION(UAsyncHelperBlueprintLibrary::execExecuteAsyncDelay)
 }
 // ********** End Class UAsyncHelperBlueprintLibrary Function ExecuteAsyncDelay ********************
 
+// ********** Begin Class UAsyncHelperBlueprintLibrary Function ExecuteAsyncDelaySimple ************
+struct Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_ExecuteAsyncDelaySimple_Statics
+{
+	struct AsyncHelperBlueprintLibrary_eventExecuteAsyncDelaySimple_Parms
+	{
+		const UObject* WorldContext;
+		float DelaySeconds;
+		FString TaskName;
+		FAsyncTaskHandle ReturnValue;
+	};
+#if WITH_METADATA
+	static constexpr UECodeGen_Private::FMetaDataPairParam Function_MetaDataParams[] = {
+		{ "Category", "Async Helper" },
+#if !UE_BUILD_SHIPPING
+		{ "Comment", "/**\n\x09 * Execute a simple async delay (Blueprint-friendly version without delegates)\n\x09 * @param WorldContext - World context for the operation\n\x09 * @param DelaySeconds - How long to wait before completing\n\x09 * @param TaskName - Optional name for debugging\n\x09 * @return Handle to the created task\n\x09 */" },
+#endif
+		{ "CPP_Default_TaskName", "SimpleAsyncDelay" },
+		{ "ModuleRelativePath", "Public/AsyncHelperBlueprintLibrary.h" },
+#if !UE_BUILD_SHIPPING
+		{ "ToolTip", "Execute a simple async delay (Blueprint-friendly version without delegates)\n@param WorldContext - World context for the operation\n@param DelaySeconds - How long to wait before completing\n@param TaskName - Optional name for debugging\n@return Handle to the created task" },
+#endif
+		{ "WorldContext", "WorldContext" },
+	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_WorldContext_MetaData[] = {
+		{ "NativeConst", "" },
+	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_TaskName_MetaData[] = {
+		{ "NativeConst", "" },
+	};
+#endif // WITH_METADATA
+	static const UECodeGen_Private::FObjectPropertyParams NewProp_WorldContext;
+	static const UECodeGen_Private::FFloatPropertyParams NewProp_DelaySeconds;
+	static const UECodeGen_Private::FStrPropertyParams NewProp_TaskName;
+	static const UECodeGen_Private::FStructPropertyParams NewProp_ReturnValue;
+	static const UECodeGen_Private::FPropertyParamsBase* const PropPointers[];
+	static const UECodeGen_Private::FFunctionParams FuncParams;
+};
+const UECodeGen_Private::FObjectPropertyParams Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_ExecuteAsyncDelaySimple_Statics::NewProp_WorldContext = { "WorldContext", nullptr, (EPropertyFlags)0x0010000000000082, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(AsyncHelperBlueprintLibrary_eventExecuteAsyncDelaySimple_Parms, WorldContext), Z_Construct_UClass_UObject_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_WorldContext_MetaData), NewProp_WorldContext_MetaData) };
+const UECodeGen_Private::FFloatPropertyParams Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_ExecuteAsyncDelaySimple_Statics::NewProp_DelaySeconds = { "DelaySeconds", nullptr, (EPropertyFlags)0x0010000000000080, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(AsyncHelperBlueprintLibrary_eventExecuteAsyncDelaySimple_Parms, DelaySeconds), METADATA_PARAMS(0, nullptr) };
+const UECodeGen_Private::FStrPropertyParams Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_ExecuteAsyncDelaySimple_Statics::NewProp_TaskName = { "TaskName", nullptr, (EPropertyFlags)0x0010000000000080, UECodeGen_Private::EPropertyGenFlags::Str, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(AsyncHelperBlueprintLibrary_eventExecuteAsyncDelaySimple_Parms, TaskName), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_TaskName_MetaData), NewProp_TaskName_MetaData) };
+const UECodeGen_Private::FStructPropertyParams Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_ExecuteAsyncDelaySimple_Statics::NewProp_ReturnValue = { "ReturnValue", nullptr, (EPropertyFlags)0x0010000000000580, UECodeGen_Private::EPropertyGenFlags::Struct, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(AsyncHelperBlueprintLibrary_eventExecuteAsyncDelaySimple_Parms, ReturnValue), Z_Construct_UScriptStruct_FAsyncTaskHandle, METADATA_PARAMS(0, nullptr) }; // 3541892958
+const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_ExecuteAsyncDelaySimple_Statics::PropPointers[] = {
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_ExecuteAsyncDelaySimple_Statics::NewProp_WorldContext,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_ExecuteAsyncDelaySimple_Statics::NewProp_DelaySeconds,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_ExecuteAsyncDelaySimple_Statics::NewProp_TaskName,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_ExecuteAsyncDelaySimple_Statics::NewProp_ReturnValue,
+};
+static_assert(UE_ARRAY_COUNT(Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_ExecuteAsyncDelaySimple_Statics::PropPointers) < 2048);
+const UECodeGen_Private::FFunctionParams Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_ExecuteAsyncDelaySimple_Statics::FuncParams = { { (UObject*(*)())Z_Construct_UClass_UAsyncHelperBlueprintLibrary, nullptr, "ExecuteAsyncDelaySimple", Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_ExecuteAsyncDelaySimple_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_ExecuteAsyncDelaySimple_Statics::PropPointers), sizeof(Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_ExecuteAsyncDelaySimple_Statics::AsyncHelperBlueprintLibrary_eventExecuteAsyncDelaySimple_Parms), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x04022401, 0, 0, METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_ExecuteAsyncDelaySimple_Statics::Function_MetaDataParams), Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_ExecuteAsyncDelaySimple_Statics::Function_MetaDataParams)},  };
+static_assert(sizeof(Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_ExecuteAsyncDelaySimple_Statics::AsyncHelperBlueprintLibrary_eventExecuteAsyncDelaySimple_Parms) < MAX_uint16);
+UFunction* Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_ExecuteAsyncDelaySimple()
+{
+	static UFunction* ReturnFunction = nullptr;
+	if (!ReturnFunction)
+	{
+		UECodeGen_Private::ConstructUFunction(&ReturnFunction, Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_ExecuteAsyncDelaySimple_Statics::FuncParams);
+	}
+	return ReturnFunction;
+}
+DEFINE_FUNCTION(UAsyncHelperBlueprintLibrary::execExecuteAsyncDelaySimple)
+{
+	P_GET_OBJECT(UObject,Z_Param_WorldContext);
+	P_GET_PROPERTY(FFloatProperty,Z_Param_DelaySeconds);
+	P_GET_PROPERTY(FStrProperty,Z_Param_TaskName);
+	P_FINISH;
+	P_NATIVE_BEGIN;
+	*(FAsyncTaskHandle*)Z_Param__Result=UAsyncHelperBlueprintLibrary::ExecuteAsyncDelaySimple(Z_Param_WorldContext,Z_Param_DelaySeconds,Z_Param_TaskName);
+	P_NATIVE_END;
+}
+// ********** End Class UAsyncHelperBlueprintLibrary Function ExecuteAsyncDelaySimple **************
+
 // ********** Begin Class UAsyncHelperBlueprintLibrary Function ExecuteAsyncDelayWithResult ********
 struct Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_ExecuteAsyncDelayWithResult_Statics
 {
@@ -1142,6 +1213,7 @@ void UAsyncHelperBlueprintLibrary::StaticRegisterNativesUAsyncHelperBlueprintLib
 		{ "CancelAsyncTask", &UAsyncHelperBlueprintLibrary::execCancelAsyncTask },
 		{ "ExecuteAsyncBatch", &UAsyncHelperBlueprintLibrary::execExecuteAsyncBatch },
 		{ "ExecuteAsyncDelay", &UAsyncHelperBlueprintLibrary::execExecuteAsyncDelay },
+		{ "ExecuteAsyncDelaySimple", &UAsyncHelperBlueprintLibrary::execExecuteAsyncDelaySimple },
 		{ "ExecuteAsyncDelayWithResult", &UAsyncHelperBlueprintLibrary::execExecuteAsyncDelayWithResult },
 		{ "ExecuteAsyncDelayWithTimeout", &UAsyncHelperBlueprintLibrary::execExecuteAsyncDelayWithTimeout },
 		{ "ExecuteAsyncTaskChain", &UAsyncHelperBlueprintLibrary::execExecuteAsyncTaskChain },
@@ -1205,6 +1277,7 @@ struct Z_Construct_UClass_UAsyncHelperBlueprintLibrary_Statics
 		{ &Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_CancelAsyncTask, "CancelAsyncTask" }, // 3720688962
 		{ &Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_ExecuteAsyncBatch, "ExecuteAsyncBatch" }, // 450173291
 		{ &Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_ExecuteAsyncDelay, "ExecuteAsyncDelay" }, // 917641929
+		{ &Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_ExecuteAsyncDelaySimple, "ExecuteAsyncDelaySimple" }, // 3569505195
 		{ &Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_ExecuteAsyncDelayWithResult, "ExecuteAsyncDelayWithResult" }, // 642298976
 		{ &Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_ExecuteAsyncDelayWithTimeout, "ExecuteAsyncDelayWithTimeout" }, // 3162298877
 		{ &Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_ExecuteAsyncTaskChain, "ExecuteAsyncTaskChain" }, // 2297166832
@@ -1260,10 +1333,10 @@ UAsyncHelperBlueprintLibrary::~UAsyncHelperBlueprintLibrary() {}
 struct Z_CompiledInDeferFile_FID_Unreal_Projects_testgas_Plugins_AsyncHelper_Source_AsyncHelper_Public_AsyncHelperBlueprintLibrary_h__Script_AsyncHelper_Statics
 {
 	static constexpr FClassRegisterCompiledInInfo ClassInfo[] = {
-		{ Z_Construct_UClass_UAsyncHelperBlueprintLibrary, UAsyncHelperBlueprintLibrary::StaticClass, TEXT("UAsyncHelperBlueprintLibrary"), &Z_Registration_Info_UClass_UAsyncHelperBlueprintLibrary, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UAsyncHelperBlueprintLibrary), 1650850791U) },
+		{ Z_Construct_UClass_UAsyncHelperBlueprintLibrary, UAsyncHelperBlueprintLibrary::StaticClass, TEXT("UAsyncHelperBlueprintLibrary"), &Z_Registration_Info_UClass_UAsyncHelperBlueprintLibrary, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UAsyncHelperBlueprintLibrary), 1891287234U) },
 	};
 };
-static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_Unreal_Projects_testgas_Plugins_AsyncHelper_Source_AsyncHelper_Public_AsyncHelperBlueprintLibrary_h__Script_AsyncHelper_950050437(TEXT("/Script/AsyncHelper"),
+static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_Unreal_Projects_testgas_Plugins_AsyncHelper_Source_AsyncHelper_Public_AsyncHelperBlueprintLibrary_h__Script_AsyncHelper_1785866386(TEXT("/Script/AsyncHelper"),
 	Z_CompiledInDeferFile_FID_Unreal_Projects_testgas_Plugins_AsyncHelper_Source_AsyncHelper_Public_AsyncHelperBlueprintLibrary_h__Script_AsyncHelper_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_Unreal_Projects_testgas_Plugins_AsyncHelper_Source_AsyncHelper_Public_AsyncHelperBlueprintLibrary_h__Script_AsyncHelper_Statics::ClassInfo),
 	nullptr, 0,
 	nullptr, 0);

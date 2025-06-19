@@ -1,7 +1,8 @@
 C:\Unreal Projects\testgas\Plugins\AsyncHelper\Source\AsyncHelper\Public\AsyncDelayAction.h
 C:\Unreal Projects\testgas\Plugins\AsyncHelper\Source\AsyncHelper\Public\AsyncHelperSettings.h
-C:\Unreal Projects\testgas\Plugins\AsyncHelper\Source\AsyncHelper\Public\AsyncHelperBlueprintLibrary.h
-C:\Unreal Projects\testgas\Plugins\AsyncHelper\Source\AsyncHelper\Public\AsyncTaskManager.h
 C:\Unreal Projects\testgas\Plugins\AsyncHelper\Source\AsyncHelper\Public\AsyncHelperSubsystem.h
 C:\Unreal Projects\testgas\Plugins\AsyncHelper\Source\AsyncHelper\Public\AsyncTaskChainAction.h
 C:\Unreal Projects\testgas\Plugins\AsyncHelper\Source\AsyncHelper\Public\AsyncTimeoutAction.h
+C:\Unreal Projects\testgas\Plugins\AsyncHelper\Source\AsyncHelper\Public\AsyncTaskManager.h
+C:\Unreal Projects\testgas\Plugins\AsyncHelper\Source\AsyncHelper\Public\AsyncBatchAction.h
+C:\Unreal Projects\testgas\Plugins\AsyncHelper\Source\AsyncHelper\Public\AsyncHelperBlueprintLibrary.h

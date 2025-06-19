@@ -115,6 +115,13 @@ bool UAsyncHelperBlueprintLibrary::IsAsyncHelperAvailable(const UObject* WorldCo
 	return GetAsyncHelperSubsystem(WorldContext) != nullptr;
 }
 
+FAsyncTaskHandle UAsyncHelperBlueprintLibrary::ExecuteAsyncDelaySimple(const UObject* WorldContext, float DelaySeconds, const FString& TaskName)
+{
+	// Create an empty delegate for simple delay
+	FAsyncTaskDelegate EmptyDelegate;
+	return ExecuteAsyncDelay(WorldContext, DelaySeconds, EmptyDelegate, TaskName);
+}
+
 UAsyncHelperSubsystem* UAsyncHelperBlueprintLibrary::GetAsyncHelperSubsystem(const UObject* WorldContext)
 {
 	if (!WorldContext)

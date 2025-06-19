@@ -7,14 +7,18 @@
 			"AsyncHelperBlueprintLibrary.gen.cpp.obj",
 			"AsyncHelperSettings.gen.cpp.obj",
 			"AsyncHelperSubsystem.gen.cpp.obj",
+			"AsyncTaskChainAction.gen.cpp.obj",
 			"AsyncTaskManager.gen.cpp.obj",
+			"AsyncTimeoutAction.gen.cpp.obj",
 			"PerModuleInline.gen.cpp.obj",
 			"AsyncDelayAction.cpp.obj",
 			"AsyncHelper.cpp.obj",
 			"AsyncHelperBlueprintLibrary.cpp.obj",
 			"AsyncHelperSettings.cpp.obj",
 			"AsyncHelperSubsystem.cpp.obj",
-			"AsyncTaskManager.cpp.obj"
+			"AsyncTaskChainAction.cpp.obj",
+			"AsyncTaskManager.cpp.obj",
+			"AsyncTimeoutAction.cpp.obj"
 		]
 	}
 }
