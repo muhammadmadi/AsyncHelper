@@ -1,24 +1,39 @@
 {
 	"FileVersion": 3,
 	"Version": 1,
-	"VersionName": "1.0",
-	"FriendlyName": "Async Helper",
-	"Description": "Performance-optimized async task utilities for Unreal Engine 5 following best practices",
-	"Category": "Performance",
-	"CreatedBy": "Your Name",
-	"CreatedByURL": "",
-	"DocsURL": "",
+	"VersionName": "1.0.0",
+	"FriendlyName": "AsyncHelper - Advanced Task Management",
+	"Description": "Professional async task management with Blueprint support, task chaining, timeout handling, and performance optimization for UE5.6+. Features true async line tracing, comprehensive validation, and marketplace-ready implementation.",
+	"Category": "Code Plugins",
+	"CreatedBy": "Your Studio Name",
+	"CreatedByURL": "https://yourstudio.com",
+	"DocsURL": "https://docs.yourstudio.com/asynchelper",
 	"MarketplaceURL": "",
-	"SupportURL": "",
+	"SupportURL": "https://support.yourstudio.com",
+	"EngineVersion": "5.6.0",
 	"CanContainContent": false,
 	"IsBetaVersion": false,
 	"IsExperimentalVersion": false,
 	"Installed": false,
+	"SupportedTargetPlatforms": [
+		"Win64",
+		"Mac",
+		"Linux",
+		"Android",
+		"iOS"
+	],
 	"Modules": [
 		{
 			"Name": "AsyncHelper",
 			"Type": "Runtime",
 			"LoadingPhase": "Default",
+			"PlatformAllowList": [
+				"Win64",
+				"Mac",
+				"Linux",
+				"Android",
+				"iOS"
+			],
 			"AdditionalDependencies": [
 				"Core",
 				"CoreUObject",

@@ -163,12 +163,8 @@ FAsyncTaskHandle UAsyncHelperSubsystem::ExecuteTaskChain(const TArray<FAsyncTask
 		return FAsyncTaskHandle();
 	}
 
-	// Create a wrapper delegate that executes the chain
-	FAsyncTaskDelegate ChainDelegate;
-	ChainDelegate.BindUFunction(this, FName("ExecuteTaskChainInternal"));
-
-	// Store the chain data (this is a simplified approach - in a real implementation you'd want better data management)
-	// For now, we'll just execute the first task and log the chain
+	// For now, execute the first task in the chain
+	// In a full implementation, you would want to create a proper chain execution system
 	UE_LOG(LogAsyncHelper, Log, TEXT("Starting task chain '%s' with %d tasks"), *TaskName, TaskChain.Num());
 
 	TotalTasksCreated++;

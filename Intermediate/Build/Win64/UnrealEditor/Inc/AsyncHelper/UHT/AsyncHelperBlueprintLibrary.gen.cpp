@@ -35,7 +35,7 @@ struct Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_CancelAllAsyncTasks_St
 	};
 #if WITH_METADATA
 	static constexpr UECodeGen_Private::FMetaDataPairParam Function_MetaDataParams[] = {
-		{ "Category", "Async Helper" },
+		{ "Category", "Async Helper|Task Management" },
 #if !UE_BUILD_SHIPPING
 		{ "Comment", "/**\n\x09 * Cancel all running async tasks\n\x09 * @param WorldContext - World context for the operation\n\x09 */" },
 #endif
@@ -90,7 +90,7 @@ struct Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_CancelAsyncTask_Static
 	};
 #if WITH_METADATA
 	static constexpr UECodeGen_Private::FMetaDataPairParam Function_MetaDataParams[] = {
-		{ "Category", "Async Helper" },
+		{ "Category", "Async Helper|Task Management" },
 #if !UE_BUILD_SHIPPING
 		{ "Comment", "/**\n\x09 * Cancel a running async task\n\x09 * @param WorldContext - World context for the operation\n\x09 * @param TaskHandle - Handle of the task to cancel\n\x09 * @return True if task was successfully cancelled\n\x09 */" },
 #endif
@@ -163,7 +163,7 @@ struct Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_ExecuteAsyncBatch_Stat
 	};
 #if WITH_METADATA
 	static constexpr UECodeGen_Private::FMetaDataPairParam Function_MetaDataParams[] = {
-		{ "Category", "Async Helper" },
+		{ "Category", "Async Helper|Advanced Operations" },
 #if !UE_BUILD_SHIPPING
 		{ "Comment", "/**\n\x09 * Execute multiple async tasks and wait for all to complete\n\x09 * @param WorldContext - World context for the operation\n\x09 * @param TaskCount - Number of tasks to execute\n\x09 * @param BatchDelegate - Function to execute for each task\n\x09 * @param TimeoutSeconds - Maximum time to wait for all tasks (0 = no timeout)\n\x09 * @param TaskName - Optional name for debugging\n\x09 * @return Handle to the batch operation\n\x09 */" },
 #endif
@@ -247,7 +247,7 @@ struct Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_ExecuteAsyncDelay_Stat
 	};
 #if WITH_METADATA
 	static constexpr UECodeGen_Private::FMetaDataPairParam Function_MetaDataParams[] = {
-		{ "Category", "Async Helper" },
+		{ "Category", "Async Helper|Basic Operations" },
 #if !UE_BUILD_SHIPPING
 		{ "Comment", "/**\n\x09 * Execute a simple async delay\n\x09 * @param WorldContext - World context for the operation\n\x09 * @param DelaySeconds - How long to wait before executing the callback\n\x09 * @param Callback - Function to execute after delay\n\x09 * @param TaskName - Optional name for debugging\n\x09 * @return Handle to the created task\n\x09 */" },
 #endif
@@ -325,7 +325,7 @@ struct Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_ExecuteAsyncDelaySimpl
 	};
 #if WITH_METADATA
 	static constexpr UECodeGen_Private::FMetaDataPairParam Function_MetaDataParams[] = {
-		{ "Category", "Async Helper" },
+		{ "Category", "Async Helper|Basic Operations" },
 #if !UE_BUILD_SHIPPING
 		{ "Comment", "/**\n\x09 * Execute a simple async delay (Blueprint-friendly version without delegates)\n\x09 * @param WorldContext - World context for the operation\n\x09 * @param DelaySeconds - How long to wait before completing\n\x09 * @param TaskName - Optional name for debugging\n\x09 * @return Handle to the created task\n\x09 */" },
 #endif
@@ -397,7 +397,7 @@ struct Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_ExecuteAsyncDelayWithR
 	};
 #if WITH_METADATA
 	static constexpr UECodeGen_Private::FMetaDataPairParam Function_MetaDataParams[] = {
-		{ "Category", "Async Helper" },
+		{ "Category", "Async Helper|Basic Operations" },
 #if !UE_BUILD_SHIPPING
 		{ "Comment", "/**\n\x09 * Execute an async task with result callback\n\x09 * @param WorldContext - World context for the operation\n\x09 * @param DelaySeconds - How long to wait before executing\n\x09 * @param Callback - Function to execute with success result\n\x09 * @param TaskName - Optional name for debugging\n\x09 * @return Handle to the created task\n\x09 */" },
 #endif
@@ -478,7 +478,7 @@ struct Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_ExecuteAsyncDelayWithT
 	};
 #if WITH_METADATA
 	static constexpr UECodeGen_Private::FMetaDataPairParam Function_MetaDataParams[] = {
-		{ "Category", "Async Helper" },
+		{ "Category", "Async Helper|Advanced Operations" },
 #if !UE_BUILD_SHIPPING
 		{ "Comment", "/**\n\x09 * Execute an async task with timeout support\n\x09 * @param WorldContext - World context for the operation\n\x09 * @param DelaySeconds - How long to wait before executing the callback\n\x09 * @param TimeoutSeconds - Maximum time to wait before timing out (0 = no timeout)\n\x09 * @param Callback - Function to execute after delay\n\x09 * @param TimeoutCallback - Function to execute if timeout occurs\n\x09 * @param TaskName - Optional name for debugging\n\x09 * @return Handle to the created task\n\x09 */" },
 #endif
@@ -570,7 +570,7 @@ struct Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_ExecuteAsyncTaskChain_
 	};
 #if WITH_METADATA
 	static constexpr UECodeGen_Private::FMetaDataPairParam Function_MetaDataParams[] = {
-		{ "Category", "Async Helper" },
+		{ "Category", "Async Helper|Advanced Operations" },
 #if !UE_BUILD_SHIPPING
 		{ "Comment", "/**\n\x09 * Execute a chain of async tasks in sequence with flexible control\n\x09 * @param WorldContext - World context for the operation\n\x09 * @param TaskChain - Array of task indices to execute in sequence\n\x09 * @param ChainDelegate - Function to execute for each task (receives task index)\n\x09 * @param DelayBetweenTasks - Delay between each task in the chain\n\x09 * @param bStopOnFailure - Whether to stop the chain if any task fails\n\x09 * @param TaskName - Optional name for debugging\n\x09 * @return Handle to the chain (cancelling this will cancel all remaining tasks)\n\x09 */" },
 #endif
@@ -670,7 +670,7 @@ struct Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_ExecuteParallelTasks_S
 	};
 #if WITH_METADATA
 	static constexpr UECodeGen_Private::FMetaDataPairParam Function_MetaDataParams[] = {
-		{ "Category", "Async Helper" },
+		{ "Category", "Async Helper|Advanced Operations" },
 #if !UE_BUILD_SHIPPING
 		{ "Comment", "/**\n\x09 * Execute multiple tasks in parallel\n\x09 * @param WorldContext - World context for the operation\n\x09 * @param TaskCount - Number of parallel tasks to execute\n\x09 * @param ParallelTaskDelegate - Function to execute for each task\n\x09 * @param TaskName - Optional name for debugging\n\x09 * @return Array of handles for the created tasks\n\x09 */" },
 #endif
@@ -751,7 +751,7 @@ struct Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_ExecuteSimpleDelay_Sta
 	};
 #if WITH_METADATA
 	static constexpr UECodeGen_Private::FMetaDataPairParam Function_MetaDataParams[] = {
-		{ "Category", "Async Helper" },
+		{ "Category", "Async Helper|Basic Operations" },
 #if !UE_BUILD_SHIPPING
 		{ "Comment", "/**\n\x09 * Execute a simple delay without callback (useful for Blueprint sequences)\n\x09 * @param WorldContext - World context for the operation\n\x09 * @param DelaySeconds - How long to wait\n\x09 * @param TaskName - Optional name for debugging\n\x09 * @return Handle to the created task\n\x09 */" },
 #endif
@@ -823,7 +823,7 @@ struct Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_ExecuteTaskChain_Stati
 	};
 #if WITH_METADATA
 	static constexpr UECodeGen_Private::FMetaDataPairParam Function_MetaDataParams[] = {
-		{ "Category", "Async Helper" },
+		{ "Category", "Async Helper|Advanced Operations" },
 #if !UE_BUILD_SHIPPING
 		{ "Comment", "/**\n\x09 * Execute a chain of async tasks in sequence\n\x09 * @param WorldContext - World context for the operation\n\x09 * @param TaskChain - Array of delegates to execute in sequence\n\x09 * @param DelayBetweenTasks - Delay between each task in the chain\n\x09 * @param TaskName - Optional name for debugging\n\x09 * @return Handle to the chain\n\x09 */" },
 #endif
@@ -904,7 +904,7 @@ struct Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_GetAsyncTaskInfo_Stati
 	};
 #if WITH_METADATA
 	static constexpr UECodeGen_Private::FMetaDataPairParam Function_MetaDataParams[] = {
-		{ "Category", "Async Helper" },
+		{ "Category", "Async Helper|Monitoring" },
 #if !UE_BUILD_SHIPPING
 		{ "Comment", "/**\n\x09 * Get information about an async task\n\x09 * @param WorldContext - World context for the operation\n\x09 * @param TaskHandle - Handle of the task\n\x09 * @return Task information structure\n\x09 */" },
 #endif
@@ -968,7 +968,7 @@ struct Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_GetPerformanceStats_St
 	};
 #if WITH_METADATA
 	static constexpr UECodeGen_Private::FMetaDataPairParam Function_MetaDataParams[] = {
-		{ "Category", "Async Helper" },
+		{ "Category", "Async Helper|Monitoring" },
 #if !UE_BUILD_SHIPPING
 		{ "Comment", "/**\n\x09 * Get performance statistics for async operations\n\x09 * @param WorldContext - World context for the operation\n\x09 * @return String containing performance information\n\x09 */" },
 #endif
@@ -1025,7 +1025,7 @@ struct Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_GetRunningTaskCount_St
 	};
 #if WITH_METADATA
 	static constexpr UECodeGen_Private::FMetaDataPairParam Function_MetaDataParams[] = {
-		{ "Category", "Async Helper" },
+		{ "Category", "Async Helper|Monitoring" },
 #if !UE_BUILD_SHIPPING
 		{ "Comment", "/**\n\x09 * Get the number of currently running async tasks\n\x09 * @param WorldContext - World context for the operation\n\x09 */" },
 #endif
@@ -1082,7 +1082,7 @@ struct Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_IsAsyncHelperAvailable
 	};
 #if WITH_METADATA
 	static constexpr UECodeGen_Private::FMetaDataPairParam Function_MetaDataParams[] = {
-		{ "Category", "Async Helper" },
+		{ "Category", "Async Helper|Utilities" },
 #if !UE_BUILD_SHIPPING
 		{ "Comment", "/**\n\x09 * Check if the AsyncHelper subsystem is available\n\x09 * @param WorldContext - World context for the operation\n\x09 * @return True if the subsystem is available\n\x09 */" },
 #endif
@@ -1145,7 +1145,7 @@ struct Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_IsAsyncTaskRunning_Sta
 	};
 #if WITH_METADATA
 	static constexpr UECodeGen_Private::FMetaDataPairParam Function_MetaDataParams[] = {
-		{ "Category", "Async Helper" },
+		{ "Category", "Async Helper|Task Management" },
 #if !UE_BUILD_SHIPPING
 		{ "Comment", "/**\n\x09 * Check if an async task is still running\n\x09 * @param WorldContext - World context for the operation\n\x09 * @param TaskHandle - Handle of the task to check\n\x09 * @return True if task is still running\n\x09 */" },
 #endif
@@ -1273,22 +1273,22 @@ struct Z_Construct_UClass_UAsyncHelperBlueprintLibrary_Statics
 #endif // WITH_METADATA
 	static UObject* (*const DependentSingletons[])();
 	static constexpr FClassFunctionLinkInfo FuncInfo[] = {
-		{ &Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_CancelAllAsyncTasks, "CancelAllAsyncTasks" }, // 1365124702
-		{ &Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_CancelAsyncTask, "CancelAsyncTask" }, // 3720688962
-		{ &Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_ExecuteAsyncBatch, "ExecuteAsyncBatch" }, // 450173291
-		{ &Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_ExecuteAsyncDelay, "ExecuteAsyncDelay" }, // 917641929
-		{ &Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_ExecuteAsyncDelaySimple, "ExecuteAsyncDelaySimple" }, // 3569505195
-		{ &Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_ExecuteAsyncDelayWithResult, "ExecuteAsyncDelayWithResult" }, // 642298976
-		{ &Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_ExecuteAsyncDelayWithTimeout, "ExecuteAsyncDelayWithTimeout" }, // 3162298877
-		{ &Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_ExecuteAsyncTaskChain, "ExecuteAsyncTaskChain" }, // 2297166832
-		{ &Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_ExecuteParallelTasks, "ExecuteParallelTasks" }, // 2149819046
-		{ &Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_ExecuteSimpleDelay, "ExecuteSimpleDelay" }, // 2614051205
-		{ &Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_ExecuteTaskChain, "ExecuteTaskChain" }, // 1723321186
-		{ &Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_GetAsyncTaskInfo, "GetAsyncTaskInfo" }, // 1448500217
-		{ &Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_GetPerformanceStats, "GetPerformanceStats" }, // 3187684440
-		{ &Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_GetRunningTaskCount, "GetRunningTaskCount" }, // 131891795
-		{ &Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_IsAsyncHelperAvailable, "IsAsyncHelperAvailable" }, // 138917089
-		{ &Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_IsAsyncTaskRunning, "IsAsyncTaskRunning" }, // 4171101445
+		{ &Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_CancelAllAsyncTasks, "CancelAllAsyncTasks" }, // 1512121288
+		{ &Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_CancelAsyncTask, "CancelAsyncTask" }, // 4249035157
+		{ &Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_ExecuteAsyncBatch, "ExecuteAsyncBatch" }, // 3831152853
+		{ &Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_ExecuteAsyncDelay, "ExecuteAsyncDelay" }, // 3936491913
+		{ &Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_ExecuteAsyncDelaySimple, "ExecuteAsyncDelaySimple" }, // 2133468074
+		{ &Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_ExecuteAsyncDelayWithResult, "ExecuteAsyncDelayWithResult" }, // 92696607
+		{ &Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_ExecuteAsyncDelayWithTimeout, "ExecuteAsyncDelayWithTimeout" }, // 394022401
+		{ &Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_ExecuteAsyncTaskChain, "ExecuteAsyncTaskChain" }, // 2275599087
+		{ &Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_ExecuteParallelTasks, "ExecuteParallelTasks" }, // 3351781367
+		{ &Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_ExecuteSimpleDelay, "ExecuteSimpleDelay" }, // 2662730266
+		{ &Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_ExecuteTaskChain, "ExecuteTaskChain" }, // 4144727703
+		{ &Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_GetAsyncTaskInfo, "GetAsyncTaskInfo" }, // 3701870049
+		{ &Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_GetPerformanceStats, "GetPerformanceStats" }, // 2553371237
+		{ &Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_GetRunningTaskCount, "GetRunningTaskCount" }, // 4205971335
+		{ &Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_IsAsyncHelperAvailable, "IsAsyncHelperAvailable" }, // 2543893821
+		{ &Z_Construct_UFunction_UAsyncHelperBlueprintLibrary_IsAsyncTaskRunning, "IsAsyncTaskRunning" }, // 3161582120
 	};
 	static_assert(UE_ARRAY_COUNT(FuncInfo) < 2048);
 	static constexpr FCppClassTypeInfoStatic StaticCppClassTypeInfo = {
@@ -1333,10 +1333,10 @@ UAsyncHelperBlueprintLibrary::~UAsyncHelperBlueprintLibrary() {}
 struct Z_CompiledInDeferFile_FID_Unreal_Projects_testgas_Plugins_AsyncHelper_Source_AsyncHelper_Public_AsyncHelperBlueprintLibrary_h__Script_AsyncHelper_Statics
 {
 	static constexpr FClassRegisterCompiledInInfo ClassInfo[] = {
-		{ Z_Construct_UClass_UAsyncHelperBlueprintLibrary, UAsyncHelperBlueprintLibrary::StaticClass, TEXT("UAsyncHelperBlueprintLibrary"), &Z_Registration_Info_UClass_UAsyncHelperBlueprintLibrary, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UAsyncHelperBlueprintLibrary), 1891287234U) },
+		{ Z_Construct_UClass_UAsyncHelperBlueprintLibrary, UAsyncHelperBlueprintLibrary::StaticClass, TEXT("UAsyncHelperBlueprintLibrary"), &Z_Registration_Info_UClass_UAsyncHelperBlueprintLibrary, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UAsyncHelperBlueprintLibrary), 2787618992U) },
 	};
 };
-static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_Unreal_Projects_testgas_Plugins_AsyncHelper_Source_AsyncHelper_Public_AsyncHelperBlueprintLibrary_h__Script_AsyncHelper_1785866386(TEXT("/Script/AsyncHelper"),
+static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_Unreal_Projects_testgas_Plugins_AsyncHelper_Source_AsyncHelper_Public_AsyncHelperBlueprintLibrary_h__Script_AsyncHelper_1473857975(TEXT("/Script/AsyncHelper"),
 	Z_CompiledInDeferFile_FID_Unreal_Projects_testgas_Plugins_AsyncHelper_Source_AsyncHelper_Public_AsyncHelperBlueprintLibrary_h__Script_AsyncHelper_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_Unreal_Projects_testgas_Plugins_AsyncHelper_Source_AsyncHelper_Public_AsyncHelperBlueprintLibrary_h__Script_AsyncHelper_Statics::ClassInfo),
 	nullptr, 0,
 	nullptr, 0);

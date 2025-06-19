@@ -36,12 +36,26 @@ void UAsyncDelayAction::Activate()
 {
 	Super::Activate();
 
+	// Enhanced validation
 	if (DelaySeconds < 0.0f)
 	{
-		UE_LOG(LogAsyncHelper, Warning, TEXT("AsyncDelayAction: DelaySeconds cannot be negative"));
+		UE_LOG(LogAsyncHelper, Error, TEXT("AsyncDelayAction: DelaySeconds cannot be negative: %f for task '%s'"), DelaySeconds, *TaskName);
 		OnCancelled.Broadcast();
 		SetReadyToDestroy();
 		return;
+	}
+
+	if (DelaySeconds > 3600.0f) // 1 hour maximum
+	{
+		UE_LOG(LogAsyncHelper, Error, TEXT("AsyncDelayAction: DelaySeconds too large: %f (max 3600) for task '%s'"), DelaySeconds, *TaskName);
+		OnCancelled.Broadcast();
+		SetReadyToDestroy();
+		return;
+	}
+
+	if (TaskName.IsEmpty())
+	{
+		UE_LOG(LogAsyncHelper, Warning, TEXT("AsyncDelayAction: Empty task name provided"));
 	}
 
 	UAsyncHelperSubsystem* Subsystem = GetAsyncHelperSubsystem();

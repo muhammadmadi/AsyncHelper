@@ -23,7 +23,7 @@ public:
 	 * @param TaskName - Optional name for debugging
 	 * @return Handle to the created task
 	 */
-	UFUNCTION(BlueprintCallable, Category = "Async Helper", meta = (WorldContext = "WorldContext"))
+	UFUNCTION(BlueprintCallable, Category = "Async Helper|Basic Operations", meta = (WorldContext = "WorldContext"))
 	static FAsyncTaskHandle ExecuteAsyncDelay(const UObject* WorldContext, float DelaySeconds, const FAsyncTaskDelegate& Callback, const FString& TaskName = TEXT("AsyncDelay"));
 
 	/**
@@ -34,7 +34,7 @@ public:
 	 * @param TaskName - Optional name for debugging
 	 * @return Handle to the created task
 	 */
-	UFUNCTION(BlueprintCallable, Category = "Async Helper", meta = (WorldContext = "WorldContext"))
+	UFUNCTION(BlueprintCallable, Category = "Async Helper|Basic Operations", meta = (WorldContext = "WorldContext"))
 	static FAsyncTaskHandle ExecuteAsyncDelayWithResult(const UObject* WorldContext, float DelaySeconds, const FAsyncTaskDelegateWithResult& Callback, const FString& TaskName = TEXT("AsyncDelayWithResult"));
 
 	/**
@@ -43,7 +43,7 @@ public:
 	 * @param TaskHandle - Handle of the task to cancel
 	 * @return True if task was successfully cancelled
 	 */
-	UFUNCTION(BlueprintCallable, Category = "Async Helper", meta = (WorldContext = "WorldContext"))
+	UFUNCTION(BlueprintCallable, Category = "Async Helper|Task Management", meta = (WorldContext = "WorldContext"))
 	static bool CancelAsyncTask(const UObject* WorldContext, const FAsyncTaskHandle& TaskHandle);
 
 	/**
@@ -52,7 +52,7 @@ public:
 	 * @param TaskHandle - Handle of the task to check
 	 * @return True if task is still running
 	 */
-	UFUNCTION(BlueprintCallable, Category = "Async Helper", meta = (WorldContext = "WorldContext"))
+	UFUNCTION(BlueprintCallable, Category = "Async Helper|Task Management", meta = (WorldContext = "WorldContext"))
 	static bool IsAsyncTaskRunning(const UObject* WorldContext, const FAsyncTaskHandle& TaskHandle);
 
 	/**
@@ -61,21 +61,21 @@ public:
 	 * @param TaskHandle - Handle of the task
 	 * @return Task information structure
 	 */
-	UFUNCTION(BlueprintCallable, Category = "Async Helper", meta = (WorldContext = "WorldContext"))
+	UFUNCTION(BlueprintCallable, Category = "Async Helper|Monitoring", meta = (WorldContext = "WorldContext"))
 	static FAsyncTaskInfo GetAsyncTaskInfo(const UObject* WorldContext, const FAsyncTaskHandle& TaskHandle);
 
 	/**
 	 * Cancel all running async tasks
 	 * @param WorldContext - World context for the operation
 	 */
-	UFUNCTION(BlueprintCallable, Category = "Async Helper", meta = (WorldContext = "WorldContext"))
+	UFUNCTION(BlueprintCallable, Category = "Async Helper|Task Management", meta = (WorldContext = "WorldContext"))
 	static void CancelAllAsyncTasks(const UObject* WorldContext);
 
 	/**
 	 * Get the number of currently running async tasks
 	 * @param WorldContext - World context for the operation
 	 */
-	UFUNCTION(BlueprintCallable, Category = "Async Helper", meta = (WorldContext = "WorldContext"))
+	UFUNCTION(BlueprintCallable, Category = "Async Helper|Monitoring", meta = (WorldContext = "WorldContext"))
 	static int32 GetRunningTaskCount(const UObject* WorldContext);
 
 	/**
@@ -86,7 +86,7 @@ public:
 	 * @param TaskName - Optional name for debugging
 	 * @return Array of handles for the created tasks
 	 */
-	UFUNCTION(BlueprintCallable, Category = "Async Helper", meta = (WorldContext = "WorldContext"))
+	UFUNCTION(BlueprintCallable, Category = "Async Helper|Advanced Operations", meta = (WorldContext = "WorldContext"))
 	static TArray<FAsyncTaskHandle> ExecuteParallelTasks(const UObject* WorldContext, int32 TaskCount, const FAsyncTaskDelegate& ParallelTaskDelegate, const FString& TaskName = TEXT("ParallelTask"));
 
 	/**
@@ -97,7 +97,7 @@ public:
 	 * @param TaskName - Optional name for debugging
 	 * @return Handle to the chain
 	 */
-	UFUNCTION(BlueprintCallable, Category = "Async Helper", meta = (WorldContext = "WorldContext"))
+	UFUNCTION(BlueprintCallable, Category = "Async Helper|Advanced Operations", meta = (WorldContext = "WorldContext"))
 	static FAsyncTaskHandle ExecuteTaskChain(const UObject* WorldContext, const TArray<FAsyncTaskDelegate>& TaskChain, float DelayBetweenTasks = 0.0f, const FString& TaskName = TEXT("TaskChain"));
 
 	/**
@@ -105,7 +105,7 @@ public:
 	 * @param WorldContext - World context for the operation
 	 * @return String containing performance information
 	 */
-	UFUNCTION(BlueprintCallable, Category = "Async Helper", meta = (WorldContext = "WorldContext"))
+	UFUNCTION(BlueprintCallable, Category = "Async Helper|Monitoring", meta = (WorldContext = "WorldContext"))
 	static FString GetPerformanceStats(const UObject* WorldContext);
 
 	/**
@@ -115,7 +115,7 @@ public:
 	 * @param TaskName - Optional name for debugging
 	 * @return Handle to the created task
 	 */
-	UFUNCTION(BlueprintCallable, Category = "Async Helper", meta = (WorldContext = "WorldContext"))
+	UFUNCTION(BlueprintCallable, Category = "Async Helper|Basic Operations", meta = (WorldContext = "WorldContext"))
 	static FAsyncTaskHandle ExecuteSimpleDelay(const UObject* WorldContext, float DelaySeconds, const FString& TaskName = TEXT("SimpleDelay"));
 
 	/**
@@ -123,7 +123,7 @@ public:
 	 * @param WorldContext - World context for the operation
 	 * @return True if the subsystem is available
 	 */
-	UFUNCTION(BlueprintCallable, Category = "Async Helper", meta = (WorldContext = "WorldContext"))
+	UFUNCTION(BlueprintCallable, Category = "Async Helper|Utilities", meta = (WorldContext = "WorldContext"))
 	static bool IsAsyncHelperAvailable(const UObject* WorldContext);
 
 	/**
@@ -133,7 +133,7 @@ public:
 	 * @param TaskName - Optional name for debugging
 	 * @return Handle to the created task
 	 */
-	UFUNCTION(BlueprintCallable, Category = "Async Helper", meta = (WorldContext = "WorldContext"))
+	UFUNCTION(BlueprintCallable, Category = "Async Helper|Basic Operations", meta = (WorldContext = "WorldContext"))
 	static FAsyncTaskHandle ExecuteAsyncDelaySimple(const UObject* WorldContext, float DelaySeconds, const FString& TaskName = TEXT("SimpleAsyncDelay"));
 
 	/**
@@ -146,7 +146,7 @@ public:
 	 * @param TaskName - Optional name for debugging
 	 * @return Handle to the chain (cancelling this will cancel all remaining tasks)
 	 */
-	UFUNCTION(BlueprintCallable, Category = "Async Helper", meta = (WorldContext = "WorldContext"))
+	UFUNCTION(BlueprintCallable, Category = "Async Helper|Advanced Operations", meta = (WorldContext = "WorldContext"))
 	static FAsyncTaskHandle ExecuteAsyncTaskChain(const UObject* WorldContext, const TArray<int32>& TaskChain, const FAsyncTaskChainDelegate& ChainDelegate, float DelayBetweenTasks = 0.0f, bool bStopOnFailure = true, const FString& TaskName = TEXT("TaskChain"));
 
 	/**
@@ -159,7 +159,7 @@ public:
 	 * @param TaskName - Optional name for debugging
 	 * @return Handle to the created task
 	 */
-	UFUNCTION(BlueprintCallable, Category = "Async Helper", meta = (WorldContext = "WorldContext"))
+	UFUNCTION(BlueprintCallable, Category = "Async Helper|Advanced Operations", meta = (WorldContext = "WorldContext"))
 	static FAsyncTaskHandle ExecuteAsyncDelayWithTimeout(const UObject* WorldContext, float DelaySeconds, float TimeoutSeconds, const FAsyncTaskDelegate& Callback, const FAsyncTimeoutDelegate& TimeoutCallback, const FString& TaskName = TEXT("AsyncDelayWithTimeout"));
 
 	/**
@@ -171,7 +171,7 @@ public:
 	 * @param TaskName - Optional name for debugging
 	 * @return Handle to the batch operation
 	 */
-	UFUNCTION(BlueprintCallable, Category = "Async Helper", meta = (WorldContext = "WorldContext"))
+	UFUNCTION(BlueprintCallable, Category = "Async Helper|Advanced Operations", meta = (WorldContext = "WorldContext"))
 	static FAsyncTaskHandle ExecuteAsyncBatch(const UObject* WorldContext, int32 TaskCount, const FAsyncTaskChainDelegate& BatchDelegate, float TimeoutSeconds = 0.0f, const FString& TaskName = TEXT("AsyncBatch"));
 
 protected:

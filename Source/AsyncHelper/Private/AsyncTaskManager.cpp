@@ -11,10 +11,16 @@ UAsyncTaskManager::UAsyncTaskManager()
 
 FAsyncTaskHandle UAsyncTaskManager::ExecuteAsyncDelay(float DelaySeconds, const FAsyncTaskDelegate& Callback, const FString& TaskName)
 {
-	if (DelaySeconds < 0.0f)
+	// Validate input parameters
+	if (!ValidateTaskParameters(DelaySeconds, TaskName))
 	{
-		UE_LOG(LogAsyncHelper, Warning, TEXT("ExecuteAsyncDelay: DelaySeconds cannot be negative"));
 		return FAsyncTaskHandle();
+	}
+
+	// Validate callback
+	if (!Callback.IsBound())
+	{
+		UE_LOG(LogAsyncHelper, Warning, TEXT("ExecuteAsyncDelay: Callback is not bound for task '%s'"), *TaskName);
 	}
 
 	const int32 TaskId = GenerateTaskId();
@@ -45,10 +51,16 @@ FAsyncTaskHandle UAsyncTaskManager::ExecuteAsyncDelay(float DelaySeconds, const 
 
 FAsyncTaskHandle UAsyncTaskManager::ExecuteAsyncDelayWithResult(float DelaySeconds, const FAsyncTaskDelegateWithResult& Callback, const FString& TaskName)
 {
-	if (DelaySeconds < 0.0f)
+	// Validate input parameters
+	if (!ValidateTaskParameters(DelaySeconds, TaskName))
 	{
-		UE_LOG(LogAsyncHelper, Warning, TEXT("ExecuteAsyncDelayWithResult: DelaySeconds cannot be negative"));
 		return FAsyncTaskHandle();
+	}
+
+	// Validate callback
+	if (!Callback.IsBound())
+	{
+		UE_LOG(LogAsyncHelper, Warning, TEXT("ExecuteAsyncDelayWithResult: Callback is not bound for task '%s'"), *TaskName);
 	}
 
 	const int32 TaskId = GenerateTaskId();
@@ -90,6 +102,15 @@ bool UAsyncTaskManager::CancelAsyncTask(const FAsyncTaskHandle& TaskHandle)
 		TSharedPtr<FAsyncTaskData> TaskData = *TaskDataPtr;
 		TaskData->bShouldCancel.AtomicSet(true);
 		TaskData->Info.bWasCancelled = true;
+
+		// Cancel timer if it exists
+		if (TaskData->TimerHandle.IsValid())
+		{
+			if (UWorld* World = GEngine->GetWorldFromContextObjectChecked(this))
+			{
+				World->GetTimerManager().ClearTimer(TaskData->TimerHandle);
+			}
+		}
 
 		UE_LOG(LogAsyncHelper, Log, TEXT("Cancelled async task '%s' with ID %d"), *TaskData->Info.TaskName, TaskHandle.TaskId);
 		return true;
@@ -147,6 +168,8 @@ void UAsyncTaskManager::CancelAllAsyncTasks()
 	FScopeLock Lock(&TaskMapCriticalSection);
 
 	int32 CancelledCount = 0;
+	UWorld* World = GEngine->GetWorldFromContextObjectChecked(this);
+
 	for (auto& TaskPair : ActiveTasks)
 	{
 		TSharedPtr<FAsyncTaskData> TaskData = TaskPair.Value;
@@ -154,6 +177,13 @@ void UAsyncTaskManager::CancelAllAsyncTasks()
 		{
 			TaskData->bShouldCancel.AtomicSet(true);
 			TaskData->Info.bWasCancelled = true;
+
+			// Cancel timer if it exists
+			if (TaskData->TimerHandle.IsValid() && World)
+			{
+				World->GetTimerManager().ClearTimer(TaskData->TimerHandle);
+			}
+
 			CancelledCount++;
 		}
 	}
@@ -205,14 +235,11 @@ void UAsyncTaskManager::CleanupCompletedTasks()
 
 void UAsyncTaskManager::ExecuteDelayedTask(TSharedPtr<FAsyncTaskData> TaskData, float DelaySeconds)
 {
-	// Launch async task using UE5 task system
-	TaskData->Task = UE::Tasks::Launch(TEXT("AsyncHelperDelayTask"), [this, TaskData, DelaySeconds]()
+	// Use timer-based approach for proper async delay without busy waiting
+	if (UWorld* World = GEngine->GetWorldFromContextObjectChecked(this))
 	{
-		// Wait for the specified delay
-		const double StartTime = FPlatformTime::Seconds();
-		const double EndTime = StartTime + DelaySeconds;
-
-		while (FPlatformTime::Seconds() < EndTime)
+		FTimerHandle TimerHandle;
+		World->GetTimerManager().SetTimer(TimerHandle, [this, TaskData]()
 		{
 			// Check for cancellation
 			if (TaskData->bShouldCancel)
@@ -222,17 +249,54 @@ void UAsyncTaskManager::ExecuteDelayedTask(TSharedPtr<FAsyncTaskData> TaskData, 
 				return;
 			}
 
-			// Small sleep to prevent busy waiting
-			FPlatformProcess::Sleep(0.01f);
-		}
+			// Task completed successfully
+			TaskData->Info.bIsCompleted = true;
+			TaskData->Info.Duration = FPlatformTime::Seconds() - TaskData->Info.StartTime;
 
-		// Task completed successfully
-		TaskData->Info.bIsCompleted = true;
-		TaskData->Info.Duration = FPlatformTime::Seconds() - TaskData->Info.StartTime;
+			// Execute callback on game thread (already on game thread with timer)
+			if (TaskData->bHasResultCallback && TaskData->ResultCallback.IsBound())
+			{
+				TaskData->ResultCallback.ExecuteIfBound(true);
+			}
+			else if (!TaskData->bHasResultCallback && TaskData->SimpleCallback.IsBound())
+			{
+				TaskData->SimpleCallback.ExecuteIfBound();
+			}
+		}, DelaySeconds, false);
 
-		// Execute callback on game thread
-		if (!TaskData->bShouldCancel)
+		// Store timer handle for potential cancellation
+		TaskData->TimerHandle = TimerHandle;
+	}
+	else
+	{
+		// Fallback: Launch async task with optimized sleep pattern
+		TaskData->Task = UE::Tasks::Launch(TEXT("AsyncHelperDelayTask"), [this, TaskData, DelaySeconds]()
 		{
+			// Use optimized sleep pattern instead of busy waiting
+			const double StartTime = FPlatformTime::Seconds();
+			const double EndTime = StartTime + DelaySeconds;
+
+			while (FPlatformTime::Seconds() < EndTime)
+			{
+				// Check for cancellation
+				if (TaskData->bShouldCancel)
+				{
+					TaskData->Info.bWasCancelled = true;
+					TaskData->Info.Duration = FPlatformTime::Seconds() - TaskData->Info.StartTime;
+					return;
+				}
+
+				// Adaptive sleep - longer sleeps for longer delays
+				const double RemainingTime = EndTime - FPlatformTime::Seconds();
+				const float SleepTime = FMath::Min(0.1f, static_cast<float>(RemainingTime * 0.1f));
+				FPlatformProcess::Sleep(FMath::Max(0.001f, SleepTime));
+			}
+
+			// Task completed successfully
+			TaskData->Info.bIsCompleted = true;
+			TaskData->Info.Duration = FPlatformTime::Seconds() - TaskData->Info.StartTime;
+
+			// Execute callback on game thread
 			AsyncTask(ENamedThreads::GameThread, [TaskData]()
 			{
 				if (TaskData->bHasResultCallback && TaskData->ResultCallback.IsBound())
@@ -244,16 +308,29 @@ void UAsyncTaskManager::ExecuteDelayedTask(TSharedPtr<FAsyncTaskData> TaskData, 
 					TaskData->SimpleCallback.ExecuteIfBound();
 				}
 			});
-		}
-	});
+		});
+	}
 }
 
 FAsyncTaskHandle UAsyncTaskManager::ExecuteAsyncTaskChain(const TArray<int32>& TaskChain, const FAsyncTaskChainDelegate& ChainDelegate, float DelayBetweenTasks, bool bStopOnFailure, const FString& TaskName)
 {
-	if (TaskChain.Num() == 0)
+	// Validate input parameters
+	if (!ValidateChainParameters(TaskChain, TaskName))
 	{
-		UE_LOG(LogAsyncHelper, Warning, TEXT("ExecuteAsyncTaskChain: TaskChain cannot be empty"));
 		return FAsyncTaskHandle();
+	}
+
+	// Validate delay between tasks
+	if (DelayBetweenTasks < 0.0f)
+	{
+		UE_LOG(LogAsyncHelper, Warning, TEXT("DelayBetweenTasks cannot be negative: %f for task '%s'"), DelayBetweenTasks, *TaskName);
+		DelayBetweenTasks = 0.0f;
+	}
+
+	// Validate callback
+	if (!ChainDelegate.IsBound())
+	{
+		UE_LOG(LogAsyncHelper, Warning, TEXT("ChainDelegate is not bound for task '%s'"), *TaskName);
 	}
 
 	const int32 TaskId = GenerateTaskId();
@@ -288,16 +365,21 @@ FAsyncTaskHandle UAsyncTaskManager::ExecuteAsyncTaskChain(const TArray<int32>& T
 
 FAsyncTaskHandle UAsyncTaskManager::ExecuteAsyncDelayWithTimeout(float DelaySeconds, float TimeoutSeconds, const FAsyncTaskDelegate& Callback, const FAsyncTimeoutDelegate& TimeoutCallback, const FString& TaskName)
 {
-	if (DelaySeconds < 0.0f)
+	// Validate input parameters
+	if (!ValidateTimeoutParameters(DelaySeconds, TimeoutSeconds, TaskName))
 	{
-		UE_LOG(LogAsyncHelper, Warning, TEXT("ExecuteAsyncDelayWithTimeout: DelaySeconds cannot be negative"));
 		return FAsyncTaskHandle();
 	}
 
-	if (TimeoutSeconds <= 0.0f)
+	// Validate callbacks
+	if (!Callback.IsBound())
 	{
-		UE_LOG(LogAsyncHelper, Warning, TEXT("ExecuteAsyncDelayWithTimeout: TimeoutSeconds must be positive"));
-		return FAsyncTaskHandle();
+		UE_LOG(LogAsyncHelper, Warning, TEXT("Callback is not bound for task '%s'"), *TaskName);
+	}
+
+	if (!TimeoutCallback.IsBound())
+	{
+		UE_LOG(LogAsyncHelper, Warning, TEXT("TimeoutCallback is not bound for task '%s'"), *TaskName);
 	}
 
 	const int32 TaskId = GenerateTaskId();
@@ -329,10 +411,23 @@ FAsyncTaskHandle UAsyncTaskManager::ExecuteAsyncDelayWithTimeout(float DelaySeco
 }
 FAsyncTaskHandle UAsyncTaskManager::ExecuteAsyncBatch(int32 TaskCount, const FAsyncTaskChainDelegate& BatchDelegate, float TimeoutSeconds, const FString& TaskName)
 {
-	if (TaskCount <= 0)
+	// Validate input parameters
+	if (!ValidateBatchParameters(TaskCount, TaskName))
 	{
-		UE_LOG(LogAsyncHelper, Warning, TEXT("ExecuteAsyncBatch: TaskCount must be positive"));
 		return FAsyncTaskHandle();
+	}
+
+	// Validate timeout
+	if (TimeoutSeconds < 0.0f)
+	{
+		UE_LOG(LogAsyncHelper, Warning, TEXT("TimeoutSeconds cannot be negative: %f for task '%s'"), TimeoutSeconds, *TaskName);
+		TimeoutSeconds = 0.0f; // Disable timeout
+	}
+
+	// Validate callback
+	if (!BatchDelegate.IsBound())
+	{
+		UE_LOG(LogAsyncHelper, Warning, TEXT("BatchDelegate is not bound for task '%s'"), *TaskName);
 	}
 
 	const int32 TaskId = GenerateTaskId();
@@ -475,14 +570,11 @@ void UAsyncTaskManager::ExecuteBatchTask(TSharedPtr<FAsyncTaskData> TaskData)
 
 void UAsyncTaskManager::ExecuteTaskWithTimeout(TSharedPtr<FAsyncTaskData> TaskData, float DelaySeconds)
 {
-	// Launch async task with timeout monitoring
-	TaskData->Task = UE::Tasks::Launch(TEXT("AsyncHelperTimeoutTask"), [this, TaskData, DelaySeconds]()
+	// Use timer-based approach for timeout tasks as well
+	if (UWorld* World = GEngine->GetWorldFromContextObjectChecked(this))
 	{
-		// Wait for the specified delay
-		const double StartTime = FPlatformTime::Seconds();
-		const double EndTime = StartTime + DelaySeconds;
-
-		while (FPlatformTime::Seconds() < EndTime)
+		FTimerHandle TimerHandle;
+		World->GetTimerManager().SetTimer(TimerHandle, [this, TaskData]()
 		{
 			// Check for cancellation
 			if (TaskData->bShouldCancel)
@@ -495,28 +587,76 @@ void UAsyncTaskManager::ExecuteTaskWithTimeout(TSharedPtr<FAsyncTaskData> TaskDa
 			// Check for timeout
 			if (CheckTaskTimeout(TaskData))
 			{
-				// Execute timeout callback on game thread
-				AsyncTask(ENamedThreads::GameThread, [TaskData]()
+				// Execute timeout callback
+				if (TaskData->TimeoutCallback.IsBound())
 				{
-					if (TaskData->TimeoutCallback.IsBound())
-					{
-						TaskData->TimeoutCallback.ExecuteIfBound(true); // true = timed out
-					}
-				});
+					TaskData->TimeoutCallback.ExecuteIfBound(true); // true = timed out
+				}
 				return;
 			}
 
-			// Small sleep to prevent busy waiting
-			FPlatformProcess::Sleep(0.01f);
-		}
+			// Task completed successfully (no timeout)
+			TaskData->Info.bIsCompleted = true;
+			TaskData->Info.Duration = FPlatformTime::Seconds() - TaskData->Info.StartTime;
 
-		// Task completed successfully (no timeout)
-		TaskData->Info.bIsCompleted = true;
-		TaskData->Info.Duration = FPlatformTime::Seconds() - TaskData->Info.StartTime;
+			// Execute callbacks
+			if (TaskData->SimpleCallback.IsBound())
+			{
+				TaskData->SimpleCallback.ExecuteIfBound();
+			}
+			if (TaskData->TimeoutCallback.IsBound())
+			{
+				TaskData->TimeoutCallback.ExecuteIfBound(false); // false = completed normally
+			}
+		}, DelaySeconds, false);
 
-		// Execute callback on game thread
-		if (!TaskData->bShouldCancel)
+		// Store timer handle for potential cancellation
+		TaskData->TimerHandle = TimerHandle;
+	}
+	else
+	{
+		// Fallback: Launch async task with optimized sleep pattern
+		TaskData->Task = UE::Tasks::Launch(TEXT("AsyncHelperTimeoutTask"), [this, TaskData, DelaySeconds]()
 		{
+			// Use optimized sleep pattern
+			const double StartTime = FPlatformTime::Seconds();
+			const double EndTime = StartTime + DelaySeconds;
+
+			while (FPlatformTime::Seconds() < EndTime)
+			{
+				// Check for cancellation
+				if (TaskData->bShouldCancel)
+				{
+					TaskData->Info.bWasCancelled = true;
+					TaskData->Info.Duration = FPlatformTime::Seconds() - TaskData->Info.StartTime;
+					return;
+				}
+
+				// Check for timeout
+				if (CheckTaskTimeout(TaskData))
+				{
+					// Execute timeout callback on game thread
+					AsyncTask(ENamedThreads::GameThread, [TaskData]()
+					{
+						if (TaskData->TimeoutCallback.IsBound())
+						{
+							TaskData->TimeoutCallback.ExecuteIfBound(true); // true = timed out
+						}
+					});
+					return;
+				}
+
+				// Adaptive sleep
+				const double RemainingTime = EndTime - FPlatformTime::Seconds();
+				const float SleepTime = FMath::Min(0.1f, static_cast<float>(RemainingTime * 0.1f));
+				FPlatformProcess::Sleep(FMath::Max(0.001f, SleepTime));
+			}
+
+			// Task completed successfully (no timeout)
+			TaskData->Info.bIsCompleted = true;
+			TaskData->Info.Duration = FPlatformTime::Seconds() - TaskData->Info.StartTime;
+
+			// Execute callback on game thread
 			AsyncTask(ENamedThreads::GameThread, [TaskData]()
 			{
 				if (TaskData->SimpleCallback.IsBound())
@@ -528,8 +668,8 @@ void UAsyncTaskManager::ExecuteTaskWithTimeout(TSharedPtr<FAsyncTaskData> TaskDa
 					TaskData->TimeoutCallback.ExecuteIfBound(false); // false = completed normally
 				}
 			});
-		}
-	});
+		});
+	}
 }
 
 bool UAsyncTaskManager::CheckTaskTimeout(TSharedPtr<FAsyncTaskData> TaskData)
@@ -543,4 +683,97 @@ bool UAsyncTaskManager::CheckTaskTimeout(TSharedPtr<FAsyncTaskData> TaskData)
 	const double ElapsedTime = CurrentTime - TaskData->TaskStartTime;
 
 	return ElapsedTime >= TaskData->TimeoutSeconds;
+}
+
+bool UAsyncTaskManager::ValidateTaskParameters(float DelaySeconds, const FString& TaskName) const
+{
+	if (DelaySeconds < MIN_DELAY_SECONDS)
+	{
+		UE_LOG(LogAsyncHelper, Error, TEXT("DelaySeconds cannot be negative: %f for task '%s'"), DelaySeconds, *TaskName);
+		return false;
+	}
+
+	if (DelaySeconds > MAX_DELAY_SECONDS)
+	{
+		UE_LOG(LogAsyncHelper, Error, TEXT("DelaySeconds too large: %f (max %f) for task '%s'"), DelaySeconds, MAX_DELAY_SECONDS, *TaskName);
+		return false;
+	}
+
+	if (TaskName.IsEmpty())
+	{
+		UE_LOG(LogAsyncHelper, Warning, TEXT("Empty task name provided"));
+	}
+
+	return true;
+}
+
+bool UAsyncTaskManager::ValidateTimeoutParameters(float DelaySeconds, float TimeoutSeconds, const FString& TaskName) const
+{
+	if (!ValidateTaskParameters(DelaySeconds, TaskName))
+	{
+		return false;
+	}
+
+	if (TimeoutSeconds <= 0.0f)
+	{
+		UE_LOG(LogAsyncHelper, Error, TEXT("TimeoutSeconds must be positive: %f for task '%s'"), TimeoutSeconds, *TaskName);
+		return false;
+	}
+
+	if (TimeoutSeconds > MAX_DELAY_SECONDS)
+	{
+		UE_LOG(LogAsyncHelper, Error, TEXT("TimeoutSeconds too large: %f (max %f) for task '%s'"), TimeoutSeconds, MAX_DELAY_SECONDS, *TaskName);
+		return false;
+	}
+
+	if (TimeoutSeconds < DelaySeconds)
+	{
+		UE_LOG(LogAsyncHelper, Warning, TEXT("TimeoutSeconds (%f) is less than DelaySeconds (%f) for task '%s' - timeout will trigger immediately"), TimeoutSeconds, DelaySeconds, *TaskName);
+	}
+
+	return true;
+}
+
+bool UAsyncTaskManager::ValidateBatchParameters(int32 TaskCount, const FString& TaskName) const
+{
+	if (TaskCount <= 0)
+	{
+		UE_LOG(LogAsyncHelper, Error, TEXT("TaskCount must be positive: %d for task '%s'"), TaskCount, *TaskName);
+		return false;
+	}
+
+	if (TaskCount > MAX_BATCH_SIZE)
+	{
+		UE_LOG(LogAsyncHelper, Error, TEXT("TaskCount too large: %d (max %d) for task '%s'"), TaskCount, MAX_BATCH_SIZE, *TaskName);
+		return false;
+	}
+
+	return true;
+}
+
+bool UAsyncTaskManager::ValidateChainParameters(const TArray<int32>& TaskChain, const FString& TaskName) const
+{
+	if (TaskChain.Num() == 0)
+	{
+		UE_LOG(LogAsyncHelper, Error, TEXT("TaskChain cannot be empty for task '%s'"), *TaskName);
+		return false;
+	}
+
+	if (TaskChain.Num() > MAX_CHAIN_SIZE)
+	{
+		UE_LOG(LogAsyncHelper, Error, TEXT("TaskChain too large: %d (max %d) for task '%s'"), TaskChain.Num(), MAX_CHAIN_SIZE, *TaskName);
+		return false;
+	}
+
+	// Validate individual task indices
+	for (int32 i = 0; i < TaskChain.Num(); i++)
+	{
+		if (TaskChain[i] < 0)
+		{
+			UE_LOG(LogAsyncHelper, Error, TEXT("TaskChain contains negative index %d at position %d for task '%s'"), TaskChain[i], i, *TaskName);
+			return false;
+		}
+	}
+
+	return true;
 }

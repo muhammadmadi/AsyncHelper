@@ -204,6 +204,9 @@ protected:
 		FThreadSafeBool bShouldCancel;
 		EAsyncTaskType TaskType;
 
+		// Timer handle for timer-based delays (preferred method)
+		FTimerHandle TimerHandle;
+
 		// Callback delegates
 		FAsyncTaskDelegate SimpleCallback;
 		FAsyncTaskDelegateWithResult ResultCallback;
@@ -265,4 +268,17 @@ protected:
 	void ExecuteBatchTask(TSharedPtr<FAsyncTaskData> TaskData);
 	void ExecuteTaskWithTimeout(TSharedPtr<FAsyncTaskData> TaskData, float DelaySeconds);
 	bool CheckTaskTimeout(TSharedPtr<FAsyncTaskData> TaskData);
+
+	// Input validation functions
+	bool ValidateTaskParameters(float DelaySeconds, const FString& TaskName) const;
+	bool ValidateTimeoutParameters(float DelaySeconds, float TimeoutSeconds, const FString& TaskName) const;
+	bool ValidateBatchParameters(int32 TaskCount, const FString& TaskName) const;
+	bool ValidateChainParameters(const TArray<int32>& TaskChain, const FString& TaskName) const;
+
+private:
+	// Constants for validation
+	static constexpr float MAX_DELAY_SECONDS = 3600.0f; // 1 hour maximum
+	static constexpr float MIN_DELAY_SECONDS = 0.0f;
+	static constexpr int32 MAX_BATCH_SIZE = 1000;
+	static constexpr int32 MAX_CHAIN_SIZE = 100;
 };

@@ -28,7 +28,8 @@ public class AsyncHelper : ModuleRules
 		PrivateDependencyModuleNames.AddRange(
 			new string[]
 			{
-				"DeveloperSettings"
+				"DeveloperSettings",
+				"KismetCompiler"
 			}
 		);
 
